@@ -9,7 +9,9 @@ class BandejaoUspSpider(CrawlSpider):
     start_urls = ["http://www.usp.br/coseas/COSEASHP/COSEAS2010_cardapio.html"]
 
     def parse(self, response):
-        sel =  Selector(response)
-        urls_restaurantes = sel.xpath("//h5/a/@href").extract()
+        main_selector =  Selector(response)
+        bandex_selectors = main_selector.xpath("//h5/a")
 
-        print(urls_restaurantes)
+        for sel in bandex_selectors:
+            url = sel.xpath("./@href").extract()[0]
+            name = sel.xpath("./text()").extract()[0]
